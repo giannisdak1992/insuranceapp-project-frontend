@@ -2,17 +2,11 @@ import { z } from "zod";
 
 const API_URL = "http://localhost:8080/api";
 
-const roleValues = ["ADMIN", "CUSTOMER"] as const;
-
-const roleSchema = z.enum(roleValues);
-
-export type RoleType = z.infer<typeof roleSchema>;
 
 const userSchema = z.object({
     firstname: z.string(),
     lastname: z.string(),
-    username: z.string().email(),
-    role: roleSchema,
+    afm: z.string(),
 });
 
 const personalInfoSchema = z.object({
