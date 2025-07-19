@@ -16,7 +16,7 @@ const personalInfoSchema = z.object({
 
 export const customerSchema = z.object({
     id: z.number().int(),
-    uuid: z.string(),
+    uuid: z.string().nullable(),
     isActive: z.boolean(),
     user: userSchema,
     personalInfo: personalInfoSchema,
@@ -27,8 +27,15 @@ export const pageSchema = <T extends z.ZodTypeAny>(itemSchema: T) =>
         content: z.array(itemSchema),
         number: z.number().int(),
         totalPages: z.number().int(),
-    });
 
+        size: z.number().int().optional(),
+        totalElements: z.number().int().optional(),
+        first: z.boolean().optional(),
+        last: z.boolean().optional(),
+        numberOfElements: z.number().int().optional(),
+        pageable: z.unknown().optional(),
+        sort: z.unknown().optional(),
+    });
 export type User = z.infer<typeof userSchema>;
 export type PersonalInfo = z.infer<typeof personalInfoSchema>;
 export type Customer = z.infer<typeof customerSchema>;
@@ -52,7 +59,7 @@ export async function getPaginatedCustomers(
     }
 
     const data = await res.json();
-
+    console.log("Raw API data: ", data)
     const parsed = pageSchema(customerSchema).safeParse(data);
 
     if (!parsed.success) {
