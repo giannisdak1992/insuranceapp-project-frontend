@@ -18,7 +18,7 @@ const CustomerListPage = ()=> {
                 setCustomers(data.content);
                 setTotalPages(data.totalPages);
             } catch (err) {
-                setError("Σφάλμα κατά την ανάκτηση δεδομένων");
+                setError("Error in fetching data");
                 console.error(err);
             } finally {
                 setLoading(false);
@@ -36,12 +36,12 @@ const CustomerListPage = ()=> {
         if (page < totalPages - 1) setPage(page + 1);
     };
 
-    if (loading) return <p className="text-gray-500">Φόρτωση...</p>;
+    if (loading) return <p className="text-gray-500">Loading...</p>;
     if (error) return <p className="text-red-500">{error}</p>;
 
     return (
         <div className="p-6">
-            <h1 className="text-2xl font-bold mb-4">Λίστα Πελατών</h1>
+            <h1 className="text-2xl font-bold mb-4">Customers</h1>
 
             <CustomerList customers={customers} />
 
@@ -51,7 +51,7 @@ const CustomerListPage = ()=> {
                     disabled={page === 0}
                     className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
                 >
-                    &laquo; Προηγούμενη
+                    &laquo; Previous
                 </button>
 
                 <span className="text-sm text-gray-600">
@@ -63,7 +63,7 @@ const CustomerListPage = ()=> {
                     disabled={page >= totalPages - 1}
                     className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
                 >
-                    Επόμενη &raquo;
+                    Next &raquo;
                 </button>
             </div>
         </div>
