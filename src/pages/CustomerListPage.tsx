@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { getPaginatedCustomers } from "../api/customers";
+import { getPaginatedCustomers } from "@/api/customers/customer";
+import type { Customer } from "@/api/customers/customer";
 import CustomerList from "../components/CustomerList";
-import type { Customer } from "../api/customers";
-
 const CustomerListPage = ()=> {
     const [customers, setCustomers] = useState<Customer[]>([]);
     const [page, setPage] = useState(0);

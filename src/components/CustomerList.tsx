@@ -48,4 +48,3 @@ const CustomerList = ({ customers }: Props) => {
 };
 
 export default CustomerList;
-
