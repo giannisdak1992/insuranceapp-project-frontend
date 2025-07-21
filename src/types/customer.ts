@@ -26,3 +26,11 @@ export interface Page<T> {
     number: number;
     totalPages: number;
 }
+
+export interface CustomerFilters {
+    firstname? : string;
+    lastname? : string;
+    isActive?: boolean
+    page ?: number;
+    size? : number
+}

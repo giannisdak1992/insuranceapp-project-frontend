@@ -140,3 +140,25 @@ export async function saveCustomer(customer: CustomerInsertDTO) {
     return await res.json();
 }
 
+// filtering and pagination
+
+
+import type {CustomerReadOnlyDTO, Page as Paginated, CustomerFilters} from "@/types/customer.ts";
+
+export async function getCustomersFilteredPaginated(filters: CustomerFilters) : Promise<Paginated<CustomerReadOnlyDTO>> {
+    const res = await fetch("http://localhost:8080/api/customers/filtered/paginated", {
+        method: "POST",
+        headers: {
+            "Content-Type" : "application/json",
+
+        },
+        body: JSON.stringify(filters),
+    });
+
+    if (!res.ok) {
+        throw new Error("Failed to fetch filtered and paginated customers");
+    }
+
+    return await res.json();
+}
+
