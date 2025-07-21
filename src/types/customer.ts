@@ -1,9 +1,11 @@
+export type Role = "CUSTOMER" | "ADMIN";
+
 export interface UserReadOnlyDTO {
     id: number;
     firstname: string;
     lastname: string;
     username: string;
-    role: string;
+    role: Role;
 }
 
 export interface PersonalInfoReadOnlyDTO {
@@ -13,7 +15,7 @@ export interface PersonalInfoReadOnlyDTO {
 
 export interface CustomerReadOnlyDTO {
     id: number;
-    uuid: string;
+    uuid: string | null;
     isActive: boolean;
     user: UserReadOnlyDTO;
     personalInfo: PersonalInfoReadOnlyDTO;

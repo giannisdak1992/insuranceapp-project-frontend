@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 import CustomerListPage from "./pages/CustomerListPage";
-// import CustomerAddPage from "./pages/CustomerFormPage";
+import CustomerInsertFormPage from "./pages/CustomerInsertFormPage";
 
 function App() {
     return (
@@ -14,7 +14,7 @@ function App() {
             <main className="p-4">
                 <Routes>
                     <Route path="/" element={<CustomerListPage />} />
-                    {/*<Route path="/add" element={<CustomerAddPage />} />*/}
+                    <Route path="/add" element={<CustomerInsertFormPage />} />
                 </Routes>
             </main>
         </Router>

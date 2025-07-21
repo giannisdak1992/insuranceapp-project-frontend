@@ -69,3 +69,74 @@ export async function getPaginatedCustomers(
 
     return parsed.data;
 }
+
+
+
+
+export const Role = {
+    CUSTOMER: "CUSTOMER",
+    ADMIN: "ADMIN",
+} as const;
+
+export type Role = typeof Role[keyof typeof Role];
+export const roleEnum = z.enum(["CUSTOMER", "ADMIN"]);
+
+//UserInsertDTO
+
+export const userInsertSchema = z.object({
+    firstname: z.string().min(1, "Νame is required"),
+    lastname: z.string().min(1, "Lastname is required"),
+    username: z.string().email("Invalid email"),
+    password: z.string()
+        .regex(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)(?=.*?[@#$!%&*]).{8,}$/, "The password must have 8+ characters, uppercase, lowercase, numbers & special characters"),
+    afm: z.string().regex(/^\d{9}$/, "Afm must consist of exactly 9 digits"),
+    fatherName:z.string().min(1, "fatherName is required"),
+    fatherLastname: z.string().min(1, "fatherLastname is required"),
+    motherName:z.string().min(1, "motherName is required"),
+    motherLastname: z.string().min(1, "motherLastname is required"),
+    dateOfBirth: z.string().refine((date) => !isNaN(Date.parse(date)), {
+        message: "Invalid date",
+    }),
+    role: roleEnum
+});
+
+
+//PersonalInfoInsertDTO schema
+
+export const personalInfoInsertSchema = z.object({
+    identityNumber: z.string().min(1, "Identity number is required"),
+    placeOfBirth: z.string().min(1, "Place of birth is required"),
+})
+
+//CustomerInsertDTO
+
+export const customerInsertSchema = z.object({
+    isActive: z.boolean(),
+    user: userInsertSchema,
+    personalInfo: personalInfoInsertSchema
+})
+
+
+//Types
+
+export type UserInsertDto = z.infer<typeof userInsertSchema>;
+export type PersonalInfoInsertDTO = z.infer<typeof personalInfoInsertSchema>;
+export type CustomerInsertDTO = z.infer<typeof customerInsertSchema>;
+
+export async function saveCustomer(customer: CustomerInsertDTO) {
+    const res = await fetch("http://localhost:8080/api/customers/save", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(customer),
+    });
+
+    if (!res.ok) {
+        const error = await res.text();
+        throw new Error("Failed to save customer: " + error);
+    }
+
+    return await res.json();
+}
+
