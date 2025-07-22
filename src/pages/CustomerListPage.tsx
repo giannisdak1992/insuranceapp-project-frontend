@@ -1,20 +1,36 @@
 import { useEffect, useState } from "react";
-import { getPaginatedCustomers } from "@/api/customers/customer";
-import type { Customer } from "@/api/customers/customer";
+import { getCustomersFilteredPaginated } from "@/api/customers/customer";
+import type { CustomerReadOnlyDTO, CustomerFilters, Page } from "@/types/customer";
 import CustomerList from "../components/CustomerList";
-const CustomerListPage = ()=> {
-    const [customers, setCustomers] = useState<Customer[]>([]);
+
+const CustomerListPage = () => {
+    const [customers, setCustomers] = useState<CustomerReadOnlyDTO[]>([]);
     const [page, setPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
+    // Φίλτρο για isActive: true, false ή undefined (όχι φιλτράρισμα)
+    const [isActiveFilter, setIsActiveFilter] = useState<boolean | undefined>(undefined);
+
     useEffect(() => {
         async function fetchData() {
             setLoading(true);
+            setError(null);
+
             try {
-                const data = await getPaginatedCustomers(page);
-                setCustomers(data.content);
+                const filters: CustomerFilters & { page: number; pageSize: number } = {
+                    page,
+                    pageSize: 5,
+                };
+
+                if (isActiveFilter !== undefined) {
+                    filters.isActive = isActiveFilter;
+                }
+
+                const data: Page<CustomerReadOnlyDTO> = await getCustomersFilteredPaginated(filters);
+                console.log("API response:", data);
+                setCustomers(data.data);
                 setTotalPages(data.totalPages);
             } catch (err) {
                 setError("Error in fetching data");
@@ -25,7 +41,7 @@ const CustomerListPage = ()=> {
         }
 
         fetchData();
-    }, [page]);
+    }, [page, isActiveFilter]);
 
     const handlePrev = () => {
         if (page > 0) setPage(page - 1);
@@ -35,14 +51,34 @@ const CustomerListPage = ()=> {
         if (page < totalPages - 1) setPage(page + 1);
     };
 
-    if (loading) return <p className="text-gray-500">Loading...</p>;
-    if (error) return <p className="text-red-500">{error}</p>;
-
     return (
         <div className="p-6">
             <h1 className="text-2xl font-bold mb-4">Customers</h1>
 
-            <CustomerList customers={customers} />
+            {/* Φίλτρο isActive */}
+            <div className="mb-4">
+                <label className="mr-2 font-semibold">Filter by Active Status:</label>
+                <select
+                    value={isActiveFilter === undefined ? "all" : isActiveFilter ? "active" : "inactive"}
+                    onChange={(e) => {
+                        const val = e.target.value;
+                        if (val === "all") setIsActiveFilter(undefined);
+                        else if (val === "active") setIsActiveFilter(true);
+                        else setIsActiveFilter(false);
+                        setPage(0); // reset page on filter change
+                    }}
+                    className="border rounded p-1"
+                >
+                    <option value="all">All</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+            </div>
+
+            {loading && <p className="text-gray-500">Loading...</p>}
+            {error && <p className="text-red-500">{error}</p>}
+
+            {!loading && !error && <CustomerList customers={customers} />}
 
             <div className="flex items-center justify-between mt-6">
                 <button
@@ -67,6 +103,6 @@ const CustomerListPage = ()=> {
             </div>
         </div>
     );
-}
+};
 
 export default CustomerListPage;

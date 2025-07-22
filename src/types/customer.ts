@@ -5,6 +5,7 @@ export interface UserReadOnlyDTO {
     firstname: string;
     lastname: string;
     username: string;
+    afm: string;
     role: Role;
 }
 
@@ -19,11 +20,12 @@ export interface CustomerReadOnlyDTO {
     isActive: boolean;
     user: UserReadOnlyDTO;
     personalInfo: PersonalInfoReadOnlyDTO;
+
 }
 
 export interface Page<T> {
-    content: T[];
-    number: number;
+    data: T[];
+    currentPage: number;
     totalPages: number;
 }
 
@@ -32,5 +34,5 @@ export interface CustomerFilters {
     lastname? : string;
     isActive?: boolean
     page ?: number;
-    size? : number
+    pageSize? : number
 }

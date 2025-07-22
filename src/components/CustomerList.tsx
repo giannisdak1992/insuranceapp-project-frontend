@@ -1,7 +1,7 @@
-import type { Customer } from "../api/customers";
+import type {CustomerReadOnlyDTO} from "@/types/customer.ts";
 
 type Props = {
-    customers: Customer[];
+    customers: CustomerReadOnlyDTO[];
 };
 
 const CustomerList = ({ customers }: Props) => {
@@ -25,19 +25,19 @@ const CustomerList = ({ customers }: Props) => {
                 </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
-                {customers.map((customer) => (
-                    <tr key={customer.id} className="hover:bg-blue-50 transition">
+                {customers?.map((customer) => (
+                    <tr key={customer?.id} className="hover:bg-blue-50 transition">
                         <td className="px-6 py-4 text-sm text-blue-900 opacity-90">
-                            {customer.user.firstname}
+                            {customer?.user?.firstname}
                         </td>
                         <td className="px-6 py-4 text-sm text-blue-900 opacity-90">
-                            {customer.user.lastname}
+                            {customer?.user?.lastname}
                         </td>
                         <td className="px-6 py-4 text-sm text-blue-900 opacity-90">
-                            {customer.user.afm}
+                            {customer?.user?.afm}
                         </td>
                         <td className="px-6 py-4 text-sm text-blue-900 opacity-90">
-                            {customer.isActive ? "Yes" : "No"}
+                            {customer?.isActive ? "Yes" : "No"}
                         </td>
                     </tr>
                 ))}
