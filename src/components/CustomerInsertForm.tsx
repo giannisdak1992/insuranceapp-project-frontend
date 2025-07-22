@@ -190,7 +190,7 @@ const CustomerInsertForm = () => {
                             {...register("user.role")}
                             className="w-full border border-gray-300 rounded px-3 py-2"
                         >
-                            <option value="">Select role</option>
+                            <option value="" disabled >Select role</option>
                             <option value="CUSTOMER">CUSTOMER</option>
                             <option value="ADMIN">ADMIN</option>
                         </select>

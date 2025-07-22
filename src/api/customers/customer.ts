@@ -161,4 +161,3 @@ export async function getCustomersFilteredPaginated(filters: CustomerFilters) : 
 
     return await res.json();
 }
-
