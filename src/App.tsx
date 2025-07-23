@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 import CustomerListPage from "./pages/CustomerListPage";
 import CustomerInsertFormPage from "./pages/CustomerInsertFormPage";
+// import CustomerEditForm from "./pages/CustomerEditFormPage";
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<CustomerListPage />} />
                     <Route path="/add" element={<CustomerInsertFormPage />} />
+                    {/*<Route path="/customers/edit/:id" element={<CustomerEditFormPage />} />*/}
                 </Routes>
             </main>
         </Router>
