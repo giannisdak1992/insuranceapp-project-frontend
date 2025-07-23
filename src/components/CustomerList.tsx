@@ -1,10 +1,12 @@
 import type {CustomerReadOnlyDTO} from "@/types/customer.ts";
+import {useNavigate} from "react-router-dom";
 
 type Props = {
     customers: CustomerReadOnlyDTO[];
 };
 
 const CustomerList = ({ customers }: Props) => {
+    const navigate = useNavigate();
     return (
         <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200 bg-white rounded shadow-sm">
@@ -44,16 +46,12 @@ const CustomerList = ({ customers }: Props) => {
                         </td>
                         <td className="px-6 py-4 text-sm text-blue-900 opacity-90 space-x-2">
                             <button
-                                onClick = {() => onUpdate(customer)}
-                                className = "px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500">
+                                onClick = {() => navigate(`/customers/edit/${customer?.id}`)}
+                                className = "text-blue-600 hover:underline">
                                 Update
                             </button>
 
-                            <button
-                                onClick={ () => onDelete(customer)}
-                                className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700">
-                                Delete
-                            </button>
+
                         </td>
                     </tr>
                 ))}
