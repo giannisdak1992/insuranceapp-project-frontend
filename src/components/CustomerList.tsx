@@ -22,6 +22,9 @@ const CustomerList = ({ customers }: Props) => {
                     <th className="px-6 py-3 text-left text-xs font-semibold text-blue-700 uppercase tracking-wider opacity-90">
                         IsActive
                     </th>
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-blue-700 uppercase tracking-wider opacity-90">
+                        Actions
+                    </th>
                 </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
@@ -38,6 +41,19 @@ const CustomerList = ({ customers }: Props) => {
                         </td>
                         <td className="px-6 py-4 text-sm text-blue-900 opacity-90">
                             {customer?.isActive ? "Yes" : "No"}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-blue-900 opacity-90 space-x-2">
+                            <button
+                                onClick = {() => onUpdate(customer)}
+                                className = "px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500">
+                                Update
+                            </button>
+
+                            <button
+                                onClick={ () => onDelete(customer)}
+                                className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700">
+                                Delete
+                            </button>
                         </td>
                     </tr>
                 ))}
