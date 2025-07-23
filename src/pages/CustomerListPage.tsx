@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getCustomersFilteredPaginated } from "@/api/customers/customer";
 import type { CustomerReadOnlyDTO, CustomerFilters, Page } from "@/types/customer";
 import CustomerList from "../components/CustomerList";
+import CustomerSearchByAfm from "@/components/CustomerSearchByAfm.tsx";
 
 const CustomerListPage = () => {
     const [customers, setCustomers] = useState<CustomerReadOnlyDTO[]>([]);
@@ -54,6 +55,7 @@ const CustomerListPage = () => {
     return (
         <div className="p-6">
             <h1 className="text-2xl font-bold mb-4">Customers</h1>
+            <CustomerSearchByAfm />
 
             {/* Φίλτρο isActive */}
             <div className="mb-4">

@@ -161,3 +161,19 @@ export async function getCustomersFilteredPaginated(filters: CustomerFilters) : 
 
     return await res.json();
 }
+
+
+// afm filtering
+
+export async function getCustomerByAfm(afm: string): Promise<CustomerReadOnlyDTO> {
+    const res = await fetch(`http://localhost:8080/api/customers/afm/${afm}`);
+
+    if (!res.ok) {
+        throw new Error(`Failed to fetch customer with AFM ${afm}`);
+    }
+
+    const data = await res.json();
+    console.log("Customer data from API: ", data)
+    return data;
+    
+}
