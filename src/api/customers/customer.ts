@@ -182,6 +182,12 @@ export async function getCustomerByAfm(afm: string): Promise<CustomerReadOnlyDTO
 
 //update
 
+export async function getCustomerById(id: number): Promise<CustomerReadOnlyDTO> {
+    const res = await fetch(`http://localhost:8080/api/customers/${id}`);
+    if (!res.ok) throw new Error("Failed to fetch customer");
+    return res.json();
+}
+
 export async function updateCustomer(id: number, customer: CustomerInsertDTO): Promise<CustomerReadOnlyDTO> {
     const res = await fetch(`http://localhost:8080/api/customers/${id}`, {
         method: "PUT",
