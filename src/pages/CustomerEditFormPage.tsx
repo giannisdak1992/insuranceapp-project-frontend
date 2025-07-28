@@ -1,4 +1,5 @@
-import CustomerInsertForm from "../components/CustomerInsertForm"; // προσαρμόζεις ανάλογα
+import CustomerEditForm from "../components/CustomerEditForm.tsx";
+
 
 const CustomerEditFormPage = () => {
     return (
@@ -7,7 +8,7 @@ const CustomerEditFormPage = () => {
                 <h1 className="text-4xl font-extrabold text-gray-900 mb-8 text-center">
                     Edit a customer
                 </h1>
-                <CustomerInsertForm />
+                <CustomerEditForm />
             </div>
         </div>
     );
