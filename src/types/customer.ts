@@ -1,13 +1,5 @@
 export type Role = "CUSTOMER" | "ADMIN";
 
-export interface UserReadOnlyDTO {
-    id: number;
-    firstname: string;
-    lastname: string;
-    username: string;
-    afm: string;
-    role: Role;
-}
 
 export interface PersonalInfoReadOnlyDTO {
     identityNumber: string;
@@ -22,6 +14,7 @@ export interface CustomerReadOnlyDTO {
     personalInfo: PersonalInfoReadOnlyDTO;
 
 }
+
 
 export interface Page<T> {
     data: T[];

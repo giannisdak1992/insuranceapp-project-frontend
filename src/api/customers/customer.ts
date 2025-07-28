@@ -2,26 +2,6 @@ import { z } from "zod";
 
 const API_URL = "http://localhost:8080/api";
 
-
-const userSchema = z.object({
-    firstname: z.string(),
-    lastname: z.string(),
-    afm: z.string(),
-});
-
-const personalInfoSchema = z.object({
-    identityNumber: z.string(),
-    placeOfBirth: z.string(),
-});
-
-export const customerSchema = z.object({
-    id: z.number().int(),
-    uuid: z.string().nullable(),
-    isActive: z.boolean(),
-    user: userSchema,
-    personalInfo: personalInfoSchema,
-});
-
 export const pageSchema = <T extends z.ZodTypeAny>(itemSchema: T) =>
     z.object({
         content: z.array(itemSchema),
@@ -36,15 +16,7 @@ export const pageSchema = <T extends z.ZodTypeAny>(itemSchema: T) =>
         pageable: z.unknown().optional(),
         sort: z.unknown().optional(),
     });
-export type User = z.infer<typeof userSchema>;
-export type PersonalInfo = z.infer<typeof personalInfoSchema>;
 export type Customer = z.infer<typeof customerSchema>;
-
-export type Page<T> = {
-    content: T[];
-    number: number;
-    totalPages: number;
-};
 
 export async function getPaginatedCustomers(
     page: number = 0,
@@ -117,11 +89,43 @@ export const customerInsertSchema = z.object({
 })
 
 
+//update
+const userUpdateSchema = z.object({
+    firstname: z.string().min(1),
+    lastname: z.string().min(1),
+    username: z.string().email().nullable().optional(),
+    password: z.string().nullable().optional(),
+    afm: z.string().regex(/^\d{9}$/),
+    fatherName: z.string().nullable().optional(),
+    fatherLastname: z.string().nullable().optional(),
+    motherName: z.string().nullable().optional(),
+    motherLastname: z.string().nullable().optional(),
+    dateOfBirth: z
+        .union([z.string().refine(val => !val || !isNaN(Date.parse(val)), { message: "Invalid date" }), z.date()])
+        .nullable()
+        .optional(),
+    role: z.enum(["CUSTOMER", "ADMIN"]).nullable().optional(),
+});
+
+const personalInfoUpdateSchema = z.object({
+    identityNumber: z.string().min(1),
+    placeOfBirth: z.string().min(1),
+});
+
+export const customerUpdateSchema = z.object({
+    isActive: z.boolean(),
+    user: userUpdateSchema,
+    personalInfo: personalInfoUpdateSchema,
+});
+
+export type CustomerUpdateDTO = z.infer<typeof customerUpdateSchema>;
+
 //Types
 
 export type UserInsertDto = z.infer<typeof userInsertSchema>;
 export type PersonalInfoInsertDTO = z.infer<typeof personalInfoInsertSchema>;
 export type CustomerInsertDTO = z.infer<typeof customerInsertSchema>;
+
 
 export async function saveCustomer(customer: CustomerInsertDTO) {
     const res = await fetch("http://localhost:8080/api/customers/save", {
@@ -184,15 +188,20 @@ export async function getCustomerByAfm(afm: string): Promise<CustomerReadOnlyDTO
 
 export async function getCustomerById(id: number): Promise<CustomerReadOnlyDTO> {
     const res = await fetch(`http://localhost:8080/api/customers/${id}`);
-    if (!res.ok) throw new Error("Failed to fetch customer");
-    return res.json();
+    if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`Failed to fetch customer: ${res.status} ${res.statusText} - ${text}`);
+    }
+    const data = await res.json();
+    console.log("Customer data received from API:", data);
+    return data;
 }
 
-export async function updateCustomer(id: number, customer: CustomerInsertDTO): Promise<CustomerReadOnlyDTO> {
+export async function updateCustomer(id: number, customer: CustomerUpdateDTO): Promise<CustomerReadOnlyDTO> {
     const res = await fetch(`http://localhost:8080/api/customers/${id}`, {
         method: "PUT",
         headers: {
-            "Content-Type": "applicataion/json"
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(customer),
     });
