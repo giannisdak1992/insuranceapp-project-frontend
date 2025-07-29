@@ -1,6 +1,24 @@
 import { z } from "zod";
 
 const API_URL = "http://localhost:8080/api";
+const userSchema = z.object({
+    firstname: z.string(),
+    lastname: z.string(),
+    afm: z.string(),
+});
+
+const personalInfoSchema = z.object({
+    identityNumber: z.string(),
+    placeOfBirth: z.string(),
+});
+
+export const customerSchema = z.object({
+    id: z.number().int(),
+    uuid: z.string().nullable(),
+    isActive: z.boolean(),
+    user: userSchema,
+    personalInfo: personalInfoSchema,
+});
 
 export const pageSchema = <T extends z.ZodTypeAny>(itemSchema: T) =>
     z.object({
@@ -17,6 +35,14 @@ export const pageSchema = <T extends z.ZodTypeAny>(itemSchema: T) =>
         sort: z.unknown().optional(),
     });
 export type Customer = z.infer<typeof customerSchema>;
+
+export type Page<T> = {
+    content: T[];
+    number: number;
+    totalPages: number;
+};
+
+
 
 export async function getPaginatedCustomers(
     page: number = 0,
