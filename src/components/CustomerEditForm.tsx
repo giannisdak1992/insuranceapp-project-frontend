@@ -24,14 +24,14 @@ const CustomerEditForm = () => {
 
     useEffect(() => {
         if (!id) return;
-        getCustomerById(id)
+        getCustomerById(Number(id))
             .then((data) => reset(data))
             .catch((err) => alert("Failed to load customer: " + err.message));
     }, [id, reset]);
 
     const onSubmit = async (data: CustomerUpdateDTO) => {
         try {
-            await updateCustomer(id!, data);
+            await updateCustomer(Number(id), data);
             alert("Customer updated successfully!");
             navigate("/");
         } catch (err) {
