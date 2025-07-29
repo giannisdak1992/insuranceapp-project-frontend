@@ -6,6 +6,10 @@ export interface PersonalInfoReadOnlyDTO {
     placeOfBirth: string;
 }
 
+export interface  UserReadOnlyDTO {
+
+}
+
 export interface CustomerReadOnlyDTO {
     id: number;
     uuid: string | null;
