@@ -239,3 +239,29 @@ export async function updateCustomer(id: number, customer: CustomerUpdateDTO): P
 
     return await res.json();
 }
+
+export const customerDropdownSchema = z.object({
+    customerAfm: z.string(),
+    fullName: z.string()
+});
+
+export type CustomerDropdownDTO = z.infer<typeof customerDropdownSchema>;
+
+export async function fetchCustomersForDropdown(): Promise<CustomerDropdownDTO[]> {
+    const res = await fetch(`${API_URL}/customers/dropdown`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+
+        }
+    });
+
+    if (!res.ok) {
+        const error = await res.text();
+        throw new Error("Failed to fetch customers for dropdown: " + error);
+    }
+
+    const data = await res.json();
+    console.log("Dropdown data:", data);
+    return z.array(customerDropdownSchema).parse(data);
+}
