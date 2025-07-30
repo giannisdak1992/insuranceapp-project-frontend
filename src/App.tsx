@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import CustomerListPage from "./pages/CustomerListPage";
 import CustomerInsertFormPage from "./pages/CustomerInsertFormPage";
 import CustomerEditFormPage from "./pages/CustomerEditFormPage";
+import CarInsertFormPage from "@/pages/CarInsertFormPage.tsx";
 
 function App() {
     return (
@@ -10,6 +11,7 @@ function App() {
             <nav className="bg-blue-600 p-4 text-white flex space-x-4">
                 <Link to="/" className="hover:underline">Customers</Link>
                 <Link to="/add" className="hover:underline">Add a new Customer</Link>
+                <Link to = "/add-car"  className="hover:underline">Add a new Car</Link>
             </nav>
 
             <main className="p-4">
@@ -17,6 +19,7 @@ function App() {
                     <Route path="/" element={<CustomerListPage />} />
                     <Route path="/add" element={<CustomerInsertFormPage />} />
                     <Route path="/customers/edit/:id" element={<CustomerEditFormPage />} />
+                    <Route path = "/add-car" element={<CarInsertFormPage />} />
                 </Routes>
             </main>
         </Router>
