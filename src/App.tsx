@@ -4,6 +4,7 @@ import CustomerListPage from "./pages/CustomerListPage";
 import CustomerInsertFormPage from "./pages/CustomerInsertFormPage";
 import CustomerEditFormPage from "./pages/CustomerEditFormPage";
 import CarInsertFormPage from "@/pages/CarInsertFormPage.tsx";
+import CarListPage from "@/pages/CarListPage.tsx";
 
 function App() {
     return (
@@ -12,6 +13,7 @@ function App() {
                 <Link to="/" className="hover:underline">Customers</Link>
                 <Link to="/add" className="hover:underline">Add a new Customer</Link>
                 <Link to = "/add-car"  className="hover:underline">Add a new Car</Link>
+                <Link to = "/cars" className="hover:underline">Cars</Link>
             </nav>
 
             <main className="p-4">
@@ -20,6 +22,7 @@ function App() {
                     <Route path="/add" element={<CustomerInsertFormPage />} />
                     <Route path="/customers/edit/:id" element={<CustomerEditFormPage />} />
                     <Route path = "/add-car" element={<CarInsertFormPage />} />
+                    <Route path = "/cars" element={<CarListPage />} />
                 </Routes>
             </main>
         </Router>
