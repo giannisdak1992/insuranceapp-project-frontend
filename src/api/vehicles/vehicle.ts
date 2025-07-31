@@ -13,7 +13,9 @@ export type VehicleType = typeof VehicleType[keyof typeof VehicleType];
 
 export const carReadOnlySchema = z.object({
     plateNumber: z.string(),
-    vehicleType: z.literal(VehicleType.CAR)
+    vehicleType: z.literal(VehicleType.CAR),
+    customerAfm: z.string(),
+    id: z.undefined()
 })
 
 export type CarReadOnlyDTO = z.infer<typeof carReadOnlySchema>;
@@ -78,4 +80,55 @@ export async function saveMotorCycle(motorcycle: MotorCycleInsertDTO) {
     }
 
     return await res.json();
+}
+
+
+
+//paginated cars
+
+export const pageSchema = <T extends z.ZodTypeAny>(itemSchema: T) =>
+    z.object({
+        content: z.array(itemSchema),
+        number: z.number().int(),
+        totalPages: z.number().int(),
+
+        size: z.number().int().optional(),
+        totalElements: z.number().int().optional(),
+        first: z.boolean().optional(),
+        last: z.boolean().optional(),
+        numberOfElements: z.number().int().optional(),
+        pageable: z.unknown().optional(),
+        sort: z.unknown().optional(),
+    });
+
+export type Page<T> = {
+    content: T[];
+    number: number;
+    totalPages: number;
+};
+
+
+
+export async function getPaginatedCars(
+    page: number = 0,
+    size: number = 5
+): Promise<Page<CarReadOnlyDTO>> {
+    const res = await fetch(
+        `${API_URL}/vehicles/cars/paginated?page=${page}&size=${size}`
+    );
+
+    if (!res.ok) {
+        throw new Error("Failed to fetch cars");
+    }
+
+    const data = await res.json();
+    console.log("Raw API data: ", data)
+    const parsed = pageSchema(carReadOnlySchema).safeParse(data);
+
+    if (!parsed.success) {
+        console.error("Validation errors:", parsed.error);
+        throw new Error("Invalid data format from API");
+    }
+
+    return parsed.data;
 }
