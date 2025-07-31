@@ -92,7 +92,7 @@ const CustomerListPage = () => {
                 </button>
 
                 <span className="text-sm text-gray-600">
-          Σελίδα {page + 1} από {totalPages}
+          Page {page + 1} of {totalPages}
         </span>
 
                 <button

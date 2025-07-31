@@ -7,7 +7,9 @@ export interface PersonalInfoReadOnlyDTO {
 }
 
 export interface  UserReadOnlyDTO {
-
+     firstname: string,
+    lastname: string,
+    afm: string
 }
 
 export interface CustomerReadOnlyDTO {
