@@ -1,15 +1,9 @@
 import { z } from "zod";
+import {VehicleType} from "@/enums/enum.ts";
 
 const API_URL = "http://localhost:8080/api";
 
 
-
-export const VehicleType = {
-    CAR: "CAR",
-    MOTORCYCLE: "MOTORCYCLE",
-} as const;
-
-export type VehicleType = typeof VehicleType[keyof typeof VehicleType];
 
 export const carReadOnlySchema = z.object({
     plateNumber: z.string(),
@@ -64,6 +58,19 @@ export const motorcycleInsertSchema = z.object({
     }),
 });
 export type MotorCycleInsertDTO = z.infer<typeof motorcycleInsertSchema>;
+
+
+
+
+export async function fetchPlatesByAfm(afm: string): Promise<string[]> {
+    const response = await fetch(`http://localhost:8080/api/vehicles/plates/${afm}`);
+
+    if (!response.ok) {
+        throw new Error(`Failed to fetch plates for AFM: ${afm}`);
+    }
+
+    return await response.json();
+}
 
 export async function saveMotorCycle(motorcycle: MotorCycleInsertDTO) {
     const res = await fetch(`${API_URL}/vehicles/motorcycles`, {
