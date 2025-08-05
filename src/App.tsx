@@ -7,6 +7,7 @@ import CarInsertFormPage from "@/pages/CarInsertFormPage.tsx";
 import CarListPage from "@/pages/CarListPage.tsx";
 import InsurancePolicyInsertFormPage from "@/pages/InsurancePolicyInsertFormPage.tsx";
 import InsurancePolicyListPage from "@/pages/InsurancePolicyListPage.tsx";
+import CustomerPoliciesPage from "@/pages/CustomerPoliciesPage.tsx";
 
 function App() {
     return (
@@ -18,6 +19,8 @@ function App() {
                 <Link to = "/cars" className="hover:underline">Cars</Link>
                 <Link to = "/policies" className="hover:underline">Policies</Link>
                 <Link to = "/add-insurance-policy" className="hover:underline">Add an Insurance Policy</Link>
+                <Link to = "/my-policies" className="hover:underline">My Policies</Link>
+
             </nav>
 
             <main className="p-4">
@@ -29,6 +32,7 @@ function App() {
                     <Route path = "/cars" element={<CarListPage />} />
                     <Route path = "/add-insurance-policy" element={<InsurancePolicyInsertFormPage/>} />
                     <Route path = "/policies" element={<InsurancePolicyListPage/>} />
+                    <Route path = "/my-policies" element={<CustomerPoliciesPage />} />
 
                 </Routes>
             </main>
