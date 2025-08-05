@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { carInsertSchema, saveCar, type CarInsertDTO } from "@/api/vehicles/vehicle";
+import {saveCar} from "@/api/vehicles/vehicle.ts"
+import { carInsertSchema, type CarInsertDTO } from "@/schemas/Vehicle.ts";
 import { fetchCustomersForDropdown, type CustomerDropdownDTO } from "@/api/customers/customer";
 
 const CarInsertForm = () => {

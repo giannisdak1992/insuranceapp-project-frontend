@@ -20,7 +20,7 @@ const CustomerPoliciesPage = () => {
             });
     }, []);
 
-    if (loading) return <p>Loading policies...</p>;
+    {loading && <p className="text-blue-600">Loading...</p>}
     if (error) return <p className="text-red-600">Error: {error}</p>;
 
     if (policies.length === 0) return <p>No policies found for your account.</p>;

@@ -3,7 +3,7 @@ import {
     type InsurancePolicyReadOnlyDTO,
     insurancePolicyReadOnlySchema
 } from "@/schemas/InsurancePolicy.ts";
-import { type Page, pageSchema} from "@/api/vehicles/vehicle.ts";
+import { type Page, pageSchema} from "@/schemas/Vehicle.ts";
 
 const API_URL = "http://localhost:8080/api";
 
