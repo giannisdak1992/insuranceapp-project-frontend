@@ -61,3 +61,20 @@ export async function getPaginatedPolicies(
 
     return parsed.data;
 }
+
+export async function getPoliciesForCurrentCustomer (filters = {}) {
+    const res = await fetch(`${API_URL}/policies/customer/self`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(filters),
+    });
+
+    if (!res.ok) {
+        const error = await res.text();
+        throw new Error("Failed to fetch policies: " + error);
+    }
+
+    return await res.json();
+}
