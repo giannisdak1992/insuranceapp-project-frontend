@@ -1,12 +1,13 @@
 import  { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { insurancePolicyInsertSchema, type InsurancePolicyInsertDTO  } from "@/schemas/InsurancePolicy.ts";
+import { insurancePolicyInsertSchema, type InsurancePolicyInsertDTO  } from "@/types/InsurancePolicy.ts";
 import {createPolicy} from "@/api/InsurancePolicies/InsurancePolicy.ts";
-import {type CustomerDropdownDTO, fetchCustomersForDropdown,} from "@/api/customers/customer";
+import {fetchCustomersForDropdown,} from "@/api/customers/customer";
 import { fetchPlatesByAfm } from "@/api/vehicles/vehicle";
 import { InsuranceType} from "@/enums/enum";
 import {useNavigate} from "react-router-dom";
+import type {CustomerDropdownDTO} from "@/types/Customer.ts";
 
 const InsurancePolicyInsertForm = () => {
     const navigate = useNavigate();

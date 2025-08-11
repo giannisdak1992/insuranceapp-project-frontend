@@ -1,4 +1,4 @@
-import type {CustomerReadOnlyDTO} from "@/types/customer.ts";
+import type {CustomerReadOnlyDTO} from "@/types/Customer.ts";
 import {useNavigate} from "react-router-dom";
 
 type Props = {
@@ -47,7 +47,7 @@ const CustomerList = ({ customers }: Props) => {
                         <td className="px-6 py-4 text-sm text-blue-900 opacity-90 space-x-2">
                             <button
                                 onClick = {() => navigate(`/customers/edit/${customer?.id}`)}
-                                className = "text-blue-600 hover:underline">
+                                className = "text-blue-600 hover:underline hover:bg-blue-100 rounded px-3 py-1 transition-colors duration-200">
                                 Update
                             </button>
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import CarList from "@/components/CarList.tsx";
 import { getPaginatedCars } from "@/api/vehicles/vehicle";
-import type { CarReadOnlyDTO } from "@/schemas/Vehicle.ts";
+import type { CarReadOnlyDTO } from "@/types/Vehicle.ts";
 
 const CarListPage = () => {
     const [cars, setCars] = useState<CarReadOnlyDTO[]>([]);

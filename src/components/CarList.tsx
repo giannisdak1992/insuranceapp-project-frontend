@@ -1,4 +1,4 @@
-import type {CarReadOnlyDTO} from "@/schemas/Vehicle.ts";
+import type {CarReadOnlyDTO} from "@/types/Vehicle.ts";
 
 type Props = {
     cars: CarReadOnlyDTO[];

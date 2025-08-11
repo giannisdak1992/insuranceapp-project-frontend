@@ -2,10 +2,9 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-    customerInsertSchema,
-    type CustomerInsertDTO,
-    saveCustomer,
+    saveCustomer
 } from "@/api/customers/customer";
+import {type CustomerInsertDTO, customerInsertSchema} from "@/types/Customer";
 
 const CustomerInsertForm = () => {
     const navigate = useNavigate();

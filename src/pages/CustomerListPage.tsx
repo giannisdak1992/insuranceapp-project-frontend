@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { getCustomersFilteredPaginated } from "@/api/customers/customer";
-import type { CustomerReadOnlyDTO, CustomerFilters, Page } from "@/types/customer";
+import type {CustomerFilters} from "@/filters/CustomerFilters.ts"
+import type {Page} from "@/filters/Page.ts"
+import type { CustomerReadOnlyDTO,} from "@/types/Customer.ts";
 import CustomerList from "../components/CustomerList";
 import CustomerSearchByAfm from "@/components/CustomerSearchByAfm.tsx";
 
@@ -11,7 +13,7 @@ const CustomerListPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    // Φίλτρο για isActive: true, false ή undefined (όχι φιλτράρισμα)
+    // filtering
     const [isActiveFilter, setIsActiveFilter] = useState<boolean | undefined>(undefined);
 
     useEffect(() => {
@@ -33,6 +35,7 @@ const CustomerListPage = () => {
                 console.log("API response:", data);
                 setCustomers(data.data);
                 setTotalPages(data.totalPages);
+                setPage(data.currentPage);
             } catch (err) {
                 setError("Error in fetching data");
                 console.error(err);
@@ -57,7 +60,7 @@ const CustomerListPage = () => {
             <h1 className="text-2xl font-bold mb-4">Customers</h1>
             <CustomerSearchByAfm />
 
-            {/* Φίλτρο isActive */}
+            {/* isActive */}
             <div className="mb-4">
                 <label className="mr-2 font-semibold">Filter by Active Status:</label>
                 <select

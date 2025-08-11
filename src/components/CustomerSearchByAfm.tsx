@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {getCustomerByAfm} from "@/api/customers/customer"
 import CustomerList from "./CustomerList";
-import type {CustomerReadOnlyDTO} from "@/types/customer.ts";
+import type {CustomerReadOnlyDTO} from "@/types/Customer.ts";
 
 
 const CustomerSearchByAfm = () => {

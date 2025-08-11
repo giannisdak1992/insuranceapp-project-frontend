@@ -3,11 +3,10 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-    customerUpdateSchema,
-    type CustomerUpdateDTO,
     getCustomerById,
     updateCustomer,
 } from "@/api/customers/customer";
+import {type CustomerUpdateDTO, customerUpdateSchema} from "@/types/Customer.ts";
 
 const CustomerEditForm = () => {
     const { id } = useParams<{ id: string }>();

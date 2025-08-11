@@ -4,7 +4,7 @@ import {
     carReadOnlySchema,
     type MotorCycleInsertDTO,
     type Page, pageSchema
-} from "@/schemas/Vehicle";
+} from "@/types/Vehicle";
 
 const API_URL = "http://localhost:8080/api";
 

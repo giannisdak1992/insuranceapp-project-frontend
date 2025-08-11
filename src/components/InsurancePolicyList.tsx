@@ -1,4 +1,4 @@
-import type {InsurancePolicyReadOnlyDTO} from "@/schemas/InsurancePolicy.ts";
+import type {InsurancePolicyReadOnlyDTO} from "@/types/InsurancePolicy.ts";
 
 type Props = {
     policies: InsurancePolicyReadOnlyDTO[];

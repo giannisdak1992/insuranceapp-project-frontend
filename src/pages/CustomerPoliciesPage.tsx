@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import InsurancePolicyList from "@/components/InsurancePolicyList";
 import { getPoliciesForCurrentCustomer } from "@/api/InsurancePolicies/InsurancePolicy";
-import type { InsurancePolicyReadOnlyDTO } from "@/schemas/InsurancePolicy.ts";
+import type { InsurancePolicyReadOnlyDTO } from "@/types/InsurancePolicy.ts";
 
 const CustomerPoliciesPage = () => {
     const [policies, setPolicies] = useState<InsurancePolicyReadOnlyDTO[]>([]);
