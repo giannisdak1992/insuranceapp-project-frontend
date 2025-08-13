@@ -2,12 +2,30 @@ import { useEffect, useState } from "react";
 import InsurancePolicyList from "@/components/InsurancePolicyList";
 import { getPoliciesForCurrentCustomer } from "@/api/InsurancePolicy.ts";
 import type { InsurancePolicyReadOnlyDTO } from "@/types/InsurancePolicy.ts";
-import {useIsAdmin, useIsCustomer} from "@/hooks/useRoles.ts";
+import { useIsAdmin, useIsCustomer } from "@/hooks/useRoles.ts";
 
 const CustomerPoliciesPage = () => {
     const isAdmin = useIsAdmin();
     const isCustomer = useIsCustomer();
-    const isAuthenticated = isAdmin || isCustomer  ;
+    const isAuthenticated = isAdmin || isCustomer;
+
+    const [policies, setPolicies] = useState<InsurancePolicyReadOnlyDTO[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        getPoliciesForCurrentCustomer()
+            .then((data) => {
+                setPolicies(data);
+            })
+            .catch((err) => {
+                setError(err.message || "Unknown error");
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    }, []);
+
     if (!isAuthenticated) {
         return (
             <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -18,26 +36,18 @@ const CustomerPoliciesPage = () => {
             </div>
         );
     }
-    const [policies, setPolicies] = useState<InsurancePolicyReadOnlyDTO[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        getPoliciesForCurrentCustomer()
-            .then((data) => {
-                setPolicies(data);
-                setLoading(false);
-            })
-            .catch((err) => {
-                setError(err.message || "Unknown error");
-                setLoading(false);
-            });
-    }, []);
+    if (loading) {
+        return <p className="text-blue-600">Loading...</p>;
+    }
 
-    {loading && <p className="text-blue-600">Loading...</p>}
-    if (error) return <p className="text-red-600">Error: {error}</p>;
+    if (error) {
+        return <p className="text-red-600">Error: {error}</p>;
+    }
 
-    if (policies.length === 0) return <p>No policies found for your account.</p>;
+    if (policies.length === 0) {
+        return <p>No policies found for your account.</p>;
+    }
 
     return (
         <div>
