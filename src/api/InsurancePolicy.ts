@@ -1,21 +1,21 @@
 import {
     type InsurancePolicyInsertDTO,
     type InsurancePolicyReadOnlyDTO,
-    insurancePolicyReadOnlySchema
+    insurancePolicyReadOnlySchema,
 } from "@/types/InsurancePolicy.ts";
-import { type Page, pageSchema} from "@/types/Vehicle.ts";
+import { type Page, pageSchema } from "@/types/Vehicle.ts";
+import { getAuthHeaders } from "@/hooks/authHeader.ts"; // Εισαγωγή auth headers
 
 const API_URL = "http://localhost:8080/api";
 
-
-
-
-export async function createPolicy(insurancePolicyInsertDTO: InsurancePolicyInsertDTO) : Promise<InsurancePolicyReadOnlyDTO> {
+//create policy
+export async function createPolicy(
+    insurancePolicyInsertDTO: InsurancePolicyInsertDTO
+): Promise<InsurancePolicyReadOnlyDTO> {
     const res = await fetch(`${API_URL}/policies/create`, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
+        headers: getAuthHeaders(),
+        credentials: "include",
         body: JSON.stringify(insurancePolicyInsertDTO),
     });
 
@@ -27,26 +27,19 @@ export async function createPolicy(insurancePolicyInsertDTO: InsurancePolicyInse
     return await res.json();
 }
 
-
-
-
+//get paginated policies
 export async function getPaginatedPolicies(
     page: number = 0,
     size: number = 5
 ): Promise<Page<InsurancePolicyReadOnlyDTO>> {
-
-    const res = await fetch(
-        `${API_URL}/policies/paginated?page=${page}&size=${size}`,
-        {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        }
-    );
+    const res = await fetch(`${API_URL}/policies/paginated?page=${page}&size=${size}`, {
+        method: "GET",
+        headers: getAuthHeaders(),
+        credentials: "include",
+    });
 
     if (!res.ok) {
-        throw new Error("Failed policies");
+        throw new Error("Failed to fetch policies");
     }
 
     const data = await res.json();
@@ -62,12 +55,12 @@ export async function getPaginatedPolicies(
     return parsed.data;
 }
 
-export async function getPoliciesForCurrentCustomer (filters = {}) {
+// get policies for logged in user
+export async function getPoliciesForCurrentCustomer(filters = {}) {
     const res = await fetch(`${API_URL}/policies/customer/self`, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
+        headers: getAuthHeaders(),
+        credentials: "include",
         body: JSON.stringify(filters),
     });
 
