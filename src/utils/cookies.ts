@@ -1,7 +1,6 @@
 import Cookies from "js-cookie";
 
 //set cookie
-
 export function setCookie(
     name : string,
     value: string,
