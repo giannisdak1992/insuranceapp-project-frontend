@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {getCustomerByAfm} from "@/api/customers/customer"
+import {getCustomerByAfm} from "@/api/customer.ts"
 import CustomerList from "./CustomerList";
 import type {CustomerReadOnlyDTO} from "@/types/Customer.ts";
 
