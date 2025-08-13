@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
     getCustomerById,
     updateCustomer,
-} from "@/api/customers/customer";
+} from "@/api/customer.ts";
 import {type CustomerUpdateDTO, customerUpdateSchema} from "@/types/Customer.ts";
 
 const CustomerEditForm = () => {
