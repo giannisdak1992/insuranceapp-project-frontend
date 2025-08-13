@@ -1,9 +1,23 @@
 import { useEffect, useState } from "react";
 import InsurancePolicyList from "@/components/InsurancePolicyList";
-import { getPoliciesForCurrentCustomer } from "@/api/InsurancePolicies/InsurancePolicy";
+import { getPoliciesForCurrentCustomer } from "@/api/InsurancePolicy.ts";
 import type { InsurancePolicyReadOnlyDTO } from "@/types/InsurancePolicy.ts";
+import {useIsAdmin, useIsCustomer} from "@/hooks/useRoles.ts";
 
 const CustomerPoliciesPage = () => {
+    const isAdmin = useIsAdmin();
+    const isCustomer = useIsCustomer();
+    const isAuthenticated = isAdmin || isCustomer  ;
+    if (!isAuthenticated) {
+        return (
+            <div className="flex items-center justify-center min-h-screen bg-gray-100">
+                <div className="bg-white p-6 rounded-lg shadow-md border border-yellow-300 text-center">
+                    <h2 className="text-2xl font-semibold text-yellow-600 mb-2">Authentication Required</h2>
+                    <p className="text-gray-700">You must be logged in to access this page.</p>
+                </div>
+            </div>
+        );
+    }
     const [policies, setPolicies] = useState<InsurancePolicyReadOnlyDTO[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
