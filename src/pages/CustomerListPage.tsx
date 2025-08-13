@@ -1,12 +1,24 @@
 import { useEffect, useState } from "react";
-import { getCustomersFilteredPaginated } from "@/api/customers/customer";
+import { getCustomersFilteredPaginated } from "@/api/customer.ts";
 import type {CustomerFilters} from "@/filters/CustomerFilters.ts"
 import type {Page} from "@/filters/Page.ts"
 import type { CustomerReadOnlyDTO,} from "@/types/Customer.ts";
 import CustomerList from "../components/CustomerList";
 import CustomerSearchByAfm from "@/components/CustomerSearchByAfm.tsx";
+import {useIsAdmin} from "@/hooks/useRoles.ts";
 
 const CustomerListPage = () => {
+    const isAdmin = useIsAdmin();
+
+    if (!isAdmin) {
+        return (
+            <div className="flex items-center justify-center min-h-screen bg-gray-100">
+                <div className="bg-white p-6 rounded-lg shadow-md border border-red-300 text-center">
+                    <h2 className="text-2xl font-semibold text-red-600 mb-2">Unauthorized Access</h2>
+                    <p className="text-gray-700">This page is restricted to administrators.</p>
+                </div>
+            </div>
+        );}
     const [customers, setCustomers] = useState<CustomerReadOnlyDTO[]>([]);
     const [page, setPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);

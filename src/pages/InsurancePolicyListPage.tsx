@@ -1,9 +1,21 @@
 import { useEffect, useState } from "react";
 import InsurancePolicyList from "@/components/InsurancePolicyList.tsx";
-import { getPaginatedPolicies} from "@/api/InsurancePolicies/InsurancePolicy.ts";
+import { getPaginatedPolicies} from "@/api/InsurancePolicy.ts";
 import type { InsurancePolicyReadOnlyDTO } from "@/types/InsurancePolicy.ts";
+import {useIsAdmin} from "@/hooks/useRoles.ts";
 
 const InsurancePolicyListPage = () => {
+    const isAdmin = useIsAdmin();
+
+    if (!isAdmin) {
+        return (
+            <div className="flex items-center justify-center min-h-screen bg-gray-100">
+                <div className="bg-white p-6 rounded-lg shadow-md border border-red-300 text-center">
+                    <h2 className="text-2xl font-semibold text-red-600 mb-2">Unauthorized Access</h2>
+                    <p className="text-gray-700">This page is restricted to administrators.</p>
+                </div>
+            </div>
+        );}
     const [policies, setPolicies] = useState<InsurancePolicyReadOnlyDTO[]>([]);
     const [page, setPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);

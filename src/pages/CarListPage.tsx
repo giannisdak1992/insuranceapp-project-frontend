@@ -1,9 +1,21 @@
 import { useEffect, useState } from "react";
 import CarList from "@/components/CarList.tsx";
-import { getPaginatedCars } from "@/api/vehicles/vehicle";
+import { getPaginatedCars } from "@/api/vehicle.ts";
 import type { CarReadOnlyDTO } from "@/types/Vehicle.ts";
+import {useIsAdmin} from "@/hooks/useRoles.ts";
 
 const CarListPage = () => {
+    const isAdmin = useIsAdmin();
+
+    if (!isAdmin) {
+        return (
+            <div className="flex items-center justify-center min-h-screen bg-gray-100">
+                <div className="bg-white p-6 rounded-lg shadow-md border border-red-300 text-center">
+                    <h2 className="text-2xl font-semibold text-red-600 mb-2">Unauthorized Access</h2>
+                    <p className="text-gray-700">This page is restricted to administrators.</p>
+                </div>
+            </div>
+        );}
     const [cars, setCars] = useState<CarReadOnlyDTO[]>([]);
     const [page, setPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
