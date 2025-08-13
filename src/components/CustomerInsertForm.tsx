@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
     saveCustomer
-} from "@/api/customers/customer";
+} from "@/api/customer.ts";
 import {type CustomerInsertDTO, customerInsertSchema} from "@/types/Customer";
 
 const CustomerInsertForm = () => {
